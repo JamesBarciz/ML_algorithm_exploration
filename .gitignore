@@ -131,6 +131,6 @@ dmypy.json
 .vscode/settings.json
 
 # Datasets
-linear_regression\house-prices-advanced-regression-techniques\*.csv
-linear_regression\house-prices-advanced-regression-techniques\kaggle_submissions
-linear_regression\house-prices-advanced-regression-techniques\profile_reports
+linear_regression\*.csv
+linear_regression\kaggle_submissions
+linear_regression\profile_reports
