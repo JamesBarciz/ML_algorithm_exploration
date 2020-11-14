@@ -15,41 +15,41 @@ class Train:
         """Print stats from a Pandas Series"""
 
             # Describe
-        descriptive_stats = series.describe()
+        descriptive_stats = self.cleaned[series].describe()
         print('Describe Method:')
         print(descriptive_stats)
         print('---------------------------------------------------')
         
         # Numeric Columns only
-        if series.dtype == 'int64':
-            mean = series.mean()
-            maximum = max(series)
-            minimum = min(series)
+        if self.cleaned[series].dtype == 'int64':
+            mean = self.cleaned[series].mean()
+            maximum = max(self.cleaned[series])
+            minimum = min(self.cleaned[series])
             print(f'''
-The Min/Max of column {series.name}: ({minimum}, {maximum})
+The Min/Max of column {self.cleaned[series].name}: ({minimum}, {maximum})
         
 The maximum is {maximum - mean} away from the mean
 The minimum is {mean - minimum} away from the mean
             ''')
             print('---------------------------------------------------')
-        elif series.dtype == 'O':
-            mode = series.mode()
+        elif self.cleaned[series].dtype == 'O':
+            mode = self.cleaned[series].mode()
             print(f'The most freqent class is: {mode[0]}')
             print('---------------------------------------------------')
             
-            print(f'Value Counts for column: {series.name}')
-            print(series.value_counts())
+            print(f'Value Counts for column: {self.cleaned[series].name}')
+            print(self.cleaned[series].value_counts())
             print('---------------------------------------------------')
         
         # Number of NaN values
-        nans = series.isna().sum()
-        nans_to_percent = nans/len(series * 100)
+        nans = self.cleaned[series].isna().sum()
+        nans_to_percent = nans/len(self.cleaned[series] * 100)
         print(f'Number of NaNs: {nans}')
         print(f'Percent of Null Values for the column: {nans_to_percent}%')
         print('---------------------------------------------------')
         
         # Number of Unique Values - Only display if there are less than 20 unique
-        unique = series.unique()
+        unique = self.cleaned[series].unique()
         print(f'There are {len(unique)} values')
         
         if len(unique) <= 20:
@@ -78,6 +78,7 @@ The minimum is {mean - minimum} away from the mean
         Returns (in order):
             - X_train, y_train, X_val, y_val, X_test, y_test
         '''
+
         X_remain, X_test, y_remain, y_test = train_test_split(X, y, test_size=test_size,
                                                               random_state=random_state)
 
@@ -248,7 +249,7 @@ The minimum is {mean - minimum} away from the mean
 
         features_encoded = self.cleaned[new_columns].astype('int64')
 
-        if condition_LotArea & condition_TotalBsmtSF & condition_1stFlrSF & condition_GrLivArea & condition_SalePrice:
+        if condition_LotArea != None:
 
             df_inter = pd.concat([self.cleaned[['LotArea', 'TotalBsmtSF', '1stFlrSF', 'GrLivArea', 'SalePrice']], features_encoded], axis=1)
 
